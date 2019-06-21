@@ -1,45 +1,37 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 
-import { UserService } from "./../../services/users/user.service";
-import { UsersModel } from "./../../models/users/user.model";
+import { UserService } from './../../services/users/user.service';
+import { UsersModel } from './../../models/users/user.model';
 
 @Component({
-  selector: "app-users-list",
-  templateUrl: "./users-list.component.html",
-  styleUrls: ["./users-list.component.css"]
+  selector: 'app-users-list',
+  templateUrl: './users-list.component.html',
+  styleUrls: ['./users-list.component.css']
 })
 export class UsersListComponent implements OnInit {
   usersDetail: UsersModel[];
   pagesArray = [];
   sorted: boolean;
   searchText: string;
-  currentPage = 1;
-  firstPage = 0;
-  lastPage: number;
-  nextPage: number;
-  prevPage: number;
-  totalCount: number;
-  limit = 100;
+  sortFilter: any;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.getUsersDetails(this.currentPage);
+    this.getUsersDetails();
+    this.getSearchString();
+    this.getSortByData();
   }
 
   /**
    * Get user details
    */
-  getUsersDetails(page?) {
-    console.log('called');
-    this.currentPage = page;
-    this.nextPage = page + 1;
-    this.prevPage = page - 1;
-
+  getUsersDetails() {
     this.userService
-      .getUsers(page, this.searchText || "")
+      .getUsers(this.searchText || 'amit')
       .subscribe(usersData => {
         this.formatResult(usersData);
+        console.log(usersData.total_count.toString())
       });
   }
 
@@ -70,14 +62,12 @@ export class UsersListComponent implements OnInit {
           watchers: usersData.items[i].watchers.toString(),
           forks: usersData.items[i].forks.toString(),
           open_issues_count: usersData.items[i].open_issues_count.toString(),
-          stargazers_count: usersData.items[i].stargazers_count.toString()
+          stargazers_count: usersData.items[i].stargazers_count.toString(),
         });
       }
     }
     this.usersDetail = data;
-    this.totalCount = usersData.total_count;
-    this.lastPage = Math.ceil(this.totalCount / this.limit);
-    this.pagesArray = new Array(this.lastPage);
+    this.sortBy(this.sortFilter ? this.sortFilter : 'name');
   }
 
   /**
@@ -116,5 +106,20 @@ export class UsersListComponent implements OnInit {
     if (this.searchText) {
       return this.filterData(this.usersDetail, this.searchText);
     }
+  }
+
+  getSearchString() {
+    this.userService.usersData.subscribe(
+      (data: string) => {
+        this.searchText = data;
+        this.getUsersDetails();
+      });
+  }
+
+  getSortByData() {
+    this.userService.sortData.subscribe(
+      (data: any) => {
+        this.sortFilter = data;
+      });
   }
 }

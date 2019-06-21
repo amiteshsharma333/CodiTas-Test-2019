@@ -1,0 +1,18 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="form-group mb-0 pull-left">
+  <select class="form-control " (change)="sortBy($event.target.value)">
+    <option disabled value="">Select sort option</option>
+    <option value="name">A - Z</option>
+    <option value="name">Z - A</option>
+    <option value="rank">Rank Asc</option>
+    <option value="rank">Rank Desc</option>
+  </select>
+</div>
+
+  <div class="collapse navbar-collapse pull-right" id="navbarSupportedContent">
+    <div class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" [(ngModel)]="searchText" placeholder="Search" aria-label="Search" (input)="getUsersDetails()" />
+        <i class="fa fa-search" aria-hidden="true"></i>
+    </div>
+  </div>
+</nav>

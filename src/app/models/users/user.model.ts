@@ -7,6 +7,7 @@ export class UsersModel {
   forks?: string;
   open_issues_count?: number;
   stargazers_count?: number;
+  total_count?: number;
 
   constructor(dto?: any) {
     this.name = dto.name;
@@ -17,5 +18,6 @@ export class UsersModel {
     this.forks = dto.forks;
     this.open_issues_count = dto.open_issues_count;
     this.stargazers_count = dto.stargazers_count;
+    this.total_count = dto.total_count;
   }
 }
