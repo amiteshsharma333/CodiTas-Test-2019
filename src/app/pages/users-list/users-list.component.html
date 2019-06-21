@@ -9,11 +9,11 @@
         <option value="rank">Rank Desc</option>
       </select>
     </div>
-    <input class="form-control mr-sm-2" type="search" [(ngModel)]="searchText" placeholder="Search" aria-label="Search"/>
+    <input class="form-control mr-sm-2" type="search" [(ngModel)]="searchText" placeholder="Search" aria-label="Search" (input)="getUsersDetails(currentPage)" />
     <i class="fa fa-search" aria-hidden="true"></i>
   </nav>
   <section class="result-wrapper w-80">
-    <div class="row" *ngFor="let item of search()">
+    <div class="row" *ngFor="let item of usersDetail">
       <div class="col-sm-2">
         <figure class="image-block">
           <img [src]="item.avatar_url" />
