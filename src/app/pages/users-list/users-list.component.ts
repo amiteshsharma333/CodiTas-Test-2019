@@ -31,7 +31,6 @@ export class UsersListComponent implements OnInit {
       .getUsers(this.searchText || 'amit')
       .subscribe(usersData => {
         this.formatResult(usersData);
-        console.log(usersData.total_count.toString())
       });
   }
 
@@ -56,35 +55,36 @@ export class UsersListComponent implements OnInit {
           name:
             usersData.items[i].name.charAt(0).toUpperCase() +
             usersData.items[i].name.slice(1),
-          full_name: usersData.items[i].full_name,
+          login: usersData.items[i].owner.login.charAt(0).toUpperCase() +
+          usersData.items[i].name.slice(1),
           avatar_url: usersData.items[i].owner.avatar_url,
           language: usersData.items[i].language,
           watchers: usersData.items[i].watchers.toString(),
           forks: usersData.items[i].forks.toString(),
           open_issues_count: usersData.items[i].open_issues_count.toString(),
           stargazers_count: usersData.items[i].stargazers_count.toString(),
+          html_url: usersData.items[i].owner.html_url
         });
       }
     }
     this.usersDetail = data;
-    this.sortBy(this.sortFilter ? this.sortFilter : 'name');
+    this.sortBy(this.sortFilter ? this.sortFilter : 'login');
   }
 
   /**
    * Sort data
    */
-  public sortBy(name: string): void {
-    this.usersDetail.sort((a: any, b: any) => {
-      if (a[name] < b[name]) {
-        return this.sorted ? 1 : -1;
-      }
-      if (a[name] > b[name]) {
-        return this.sorted ? -1 : 1;
-      }
-      return 0;
-    });
-
-    this.sorted = !this.sorted;
+  public sortBy(sort: any): void {
+      this.usersDetail.sort((a: any, b: any) => {
+        if (a[sort] < b[sort]) {
+          return this.sorted ? 1 : -1;
+        }
+        if (a[sort] > b[sort]) {
+          return this.sorted ? -1 : 1;
+        }
+        return 0;
+      });
+      this.sorted = !this.sorted;
   }
 
   /**

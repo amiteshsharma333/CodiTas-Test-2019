@@ -4,18 +4,34 @@
       <div class="details">
         <div class="avatar"><img [src]="item.avatar_url" /></div>
         <div class="info">
-          <h2>{{ item.name }}</h2>
-          <p>Language:{{ item.language }}</p>
+          <h1>{{ item.login }}</h1>
+          <p>profile URL: {{ item.html_url }}</p>
+        <p>Stars: {{ item.stargazers_count }}</p>
+      <p></p>
         </div>
       </div>
       <footer class="">
         <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
           <ngb-panel title="Details">
             <ng-template ngbPanelContent>
-              Stars:{{ item.stargazers_count }}<br />
-              Open Issues Count:{{item.open_issues_count}}<br />
-              Forks Count: {{ item.forks }}<br />
-              Watchers:{{item.watchers}}
+              <table>
+                <tr>
+                  <td><b>{{ item.name }}</b></td>
+                  <td><b>{{item.language}}</b></td>            
+                </tr>
+                <tr>
+                  <td><b>Watchers</b></td>
+                  <td><b>{{item.watchers}}</b></td>
+                </tr>
+                <tr>
+                  <td><b>Forks</b></td>
+                  <td><b>{{item.forks}}</b></td>
+                </tr>
+                <tr>
+                  <td><b>Open Issues Count</b></td>
+                  <td><b>{{item.open_issues_count}}</b></td>
+                </tr>
+              </table>
             </ng-template>
           </ngb-panel>
         </ngb-accordion>
